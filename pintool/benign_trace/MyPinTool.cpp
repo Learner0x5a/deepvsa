@@ -250,7 +250,7 @@ VOID Trace(INS ins,  VOID *v){
 }
 
 
-void get_map_info()
+void get_map_info() // zhuwy: write memory map info of current process into a file
 {
     FILE *procmaps, *pFile;
     char line[256];
@@ -286,7 +286,7 @@ VOID Fini(INT32 code, VOID *v)
     *memtrace << mem_ss.rdbuf() << std::flush;
     mem_ss.str("");
 
-    get_map_info();
+    get_map_info(); // zhuwy: write memory map info when finished
 }
 
 
