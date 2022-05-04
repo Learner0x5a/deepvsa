@@ -50,14 +50,14 @@ def parse_file(logpath, instpath, regpath):
 			if len(regdict) == 0:
 				logs.append("noreg")
 			else:
-				logs.append(";".join([str(reg)+":" + regdict[reg] for reg in regdict]))
+				logs.append(";".join([str(reg)+":" + regdict[reg] for reg in regdict])) # reg0_id:reg0_value;reg1_id,reg1_value;......
 		else:
 			logs.append("noreg")
 
 	with open(instpath, "w") as fw: # instruction log, writing all instructions' addrs into a file
 		fw.write("\n".join([x for x in reversed(inst)]))
 
-	with open(regpath, "w") as fw: # reg log, writing all values of reg_operands
+	with open(regpath, "w") as fw: # reg log, writing all values of reg_operands, each line represents info of reg_operands of an inst 
 		fw.write("\n".join([x for x in reversed(logs)]))
 
 #do the parse
