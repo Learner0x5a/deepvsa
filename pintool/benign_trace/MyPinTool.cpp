@@ -1,6 +1,8 @@
 /*! @file
  *  This is an example of the PIN tool that demonstrates some basic PIN APIs 
  *  and could serve as the starting point for developing your first PIN tool
+ * zhuwy: this pintool instrument each instruction, generate log in the following format: 
+ * 	thead_id;ins_addr;ins_disasm;ins_bytecode;mem_operand_num;regoperand_list(name:value)
  */
 
 #include "pin.H"
@@ -180,7 +182,7 @@ VOID LogInstDetail(THREADID threadID, VOID * address, UINT32 size, UINT32 num, c
 	char * pi = (char *)malloc(size);
     	PIN_SafeCopy(pi, address, size);
 
-	for (UINT32 id=0; id<size; id++) {
+	for (UINT32 id=0; id<size; id++) { // zhuwy: log bytecode
         	ss << std::hex << setfill('0') << setw(2) << (pi[id] & 0xFF);
 		if (id + 1 != size) ss << " ";
 	}
@@ -188,9 +190,9 @@ VOID LogInstDetail(THREADID threadID, VOID * address, UINT32 size, UINT32 num, c
 	free(pi);
 	pi = NULL;
 
-	ss << std::hex << ";" << num;
+	ss << std::hex << ";" << num; // zhuwy: log number of memory operand(s)
 
-	for(std::list<REG>::iterator it = registers->begin(); it != registers->end(); it++){
+	for(std::list<REG>::iterator it = registers->begin(); it != registers->end(); it++){ // zhuwy: log each reg name and its value
 
 		ss << ";";
 
