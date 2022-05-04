@@ -1,8 +1,10 @@
 /*! @file
  *  This is an example of the PIN tool that demonstrates some basic PIN APIs 
  *  and could serve as the starting point for developing your first PIN tool
- * zhuwy: this pintool instrument each instruction, generate log in the following format: 
- * 	thead_id;ins_addr;ins_disasm;ins_bytecode;mem_operand_num;regop_list(name0:value0;name1:value1;...)
+ * zhuwy: this pintool instrument each instruction, generate logs in the following format: 
+ * 	inst.log: thead_id;ins_addr;ins_disasm;ins_bytecode;mem_operand_num;regop_list(name0:value0;name1:value1;...)
+ *	memtrace.log: ins_addr:mem_addr
+ *	maps_full.log: contents of </proc/self/maps>
  */
 
 #include "pin.H"
