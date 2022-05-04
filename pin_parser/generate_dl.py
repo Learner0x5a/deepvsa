@@ -37,15 +37,15 @@ def parse_file(inst_path, memtrace_path, maps_path, binary_path, region_path, me
     region_list = []
 
     with open(maps_path, "r") as fr:
-        content = fr.readlines()
+        content = fr.readlines() # memory regions from /proc/self/maps
 
     assert(len(content) == 3)
 
     glob_reg  = content[0].strip().split("-")
     heap_reg  = content[1].strip().split("-")
     stack_reg = content[2].strip().split("-")
-         
-    maps.append([int(glob_reg[0], 16), int(glob_reg[1], 16)])
+    
+    maps.append([int(glob_reg[0], 16), int(glob_reg[1], 16)]) 
     maps.append([int(heap_reg[0], 16), int(heap_reg[1], 16)])
     maps.append([int(stack_reg[0], 16), int(stack_reg[1], 16)])
 
@@ -53,21 +53,21 @@ def parse_file(inst_path, memtrace_path, maps_path, binary_path, region_path, me
     #	print(hex(ent[0]), hex(ent[1]))
 
     with open(inst_path, "r") as fr:
-        content = fr.readlines();
+        content = fr.readlines(); # tid;ip;disasm;binary;memop_num;regop_list(name:value)
 
     for line in content :
-        inst.append(line.strip().split(";"))
+        inst.append(line.strip().split(";")) # shape of inst: (num_ins, 6)
           
     with open(memtrace_path, "r") as fr:
-        content = fr.readlines()
+        content = fr.readlines() # ins_addr:mem_addr
 
     for line in content :
-        memtrace.append(line.strip().split(":"))
+        memtrace.append(line.strip().split(":")) # shape of memtrace: (num_memop,)
 
-    trace_id = 0
+    trace_id = 0 # memory operation id
 
     for ins in inst:
-        binary.append(ins[3])
+        binary.append(ins[3]) # shape of binary: (num_ins, len_bytecode)
     
         # calculate num to match the length of memtrace
 	if int(ins[4]) == 0 :
