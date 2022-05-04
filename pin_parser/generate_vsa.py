@@ -6,6 +6,7 @@ import sys
 RegIdDict = {"eax" : 1, "ecx": 2, "edx": 3, "ebx": 4, "esp":5, "ebp":6, "esi":7, "edi":8, "ax":9, "cx":10, "dx":11, "bx":12, "sp":13, "bp":14, "si":15, "di":16, "al":17, "cl":18, "dl":19, "bl":20, "ah":21, "ch":22, "dh":23, "bh":24, "mm0":25, "mm1": 26, "mm2": 27, "mm3":28, "mm4":29, "mm5":30, "mm6":31, "mm7":32, "xmm0":33, "xmm1":34, "xmm2":35, "xmm3":36, "xmm4":37, "xmm5":38, "xmm6":39, "xmm7":40, "eflags":81, "eip":85, "es":65, "cs":66, "ss":67, "ds":68, "fs":69, "gs":70, "seg_gs_base":70, "st0":73, "st1":74, "st2":75, "st3":76, "st4":77, "st5":78}
 
 def parse_regs(reginfo):
+	'''reginfo: str, regop_list(name0:value0;name1:value1;...) '''
 
 	regs = {}
 	for item in reginfo:
@@ -42,7 +43,7 @@ def parse_file(logpath, instpath, regpath):
 			break;
 
 		items = line.split(";")	
-		inst.append(items[1])
+		inst.append(items[1]) # inst: list of ins_addr
 		
 		if len(items) > 5:
 			regdict = parse_regs(items[5:])
@@ -53,10 +54,10 @@ def parse_file(logpath, instpath, regpath):
 		else:
 			logs.append("noreg")
 
-	with open(instpath, "w") as fw:
+	with open(instpath, "w") as fw: # instruction log, writing all instructions' addrs into a file
 		fw.write("\n".join([x for x in reversed(inst)]))
 
-	with open(regpath, "w") as fw:
+	with open(regpath, "w") as fw: # reg log, writing all values of reg_operands
 		fw.write("\n".join([x for x in reversed(logs)]))
 
 #do the parse
